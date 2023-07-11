@@ -13,8 +13,8 @@ import path from "path";
 import { fileURLToPath } from "url";
 
 //Routes floder that I contain every paths and routes
-//this is case it is for auth.js
 import authRoutes from "./routes/auth.js";
+import userRoutes from "./routes/users.js"
 
 import { register } from "./controllers/auth.js";
 
@@ -65,6 +65,8 @@ const upload = multer({ storage });
 
 //Start Authentication and Authorization:
 
+
+
 //Route with files:
 app.post(
     //1. route (url)
@@ -82,7 +84,7 @@ app.post(
 
 //Routes
 app.use("/auth", authRoutes);
-
+app.use("/users", userRoutes);
 
 //Mongoose Setup:
 //the line process.env.PORT use the details in .env, which is PORT 3001
