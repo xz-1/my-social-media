@@ -1,5 +1,6 @@
 import express from "express";
-import bodyParser from "body-parser";
+//this is deprecated
+//import bodyParser from "body-parser";
 import mongoose from "mongoose";
 import cors from "cors";
 import dotenv from "dotenv";
@@ -11,8 +12,11 @@ import morgan from "morgan";
 import path from "path";
 import { fileURLToPath } from "url";
 
+//Routes floder that I contain every paths and routes
+//this is case it is for auth.js
+import authRoutes from "./routes/auth.js";
 
-import { register } from "./controllers/auth.js"
+import { register } from "./controllers/auth.js";
 
 //Configuration: (Middleware): function that run in between different things
 const __filename = fileURLToPath(import.meta.url); //to grasp the file url
@@ -52,8 +56,32 @@ const storage = multer.diskStorage({
         cb(null, file.originalname);
     }
 });
+
+
+//this goes together---------------------------------------------------open
+
 //this is the variable that I will use to save the uploaded files
 const upload = multer({ storage });
+
+//Start Authentication and Authorization:
+
+//Route with files:
+app.post(
+    //1. route (url)
+    //the reason that the route(url) is here and not in the /routes folder
+    //because it work with variable 'upload' (line above)
+    //Note: only when I need to upload the file
+    "/auth/register",
+    //2. middleware to /public/assets/ directory
+    //this is why, it is called middleware because it happens in between, in this case 1: Route and 3: Logic
+    upload.single("picture"),
+    //3. logic (it is in controller in the term of MVC model)
+    register);
+
+//this goes together---------------------------------------------------close
+
+//Routes
+app.use("/auth", authRoutes);
 
 
 //Mongoose Setup:
@@ -72,14 +100,3 @@ mongoose.connect(process.env.MONGO_URL, {
 });
 
 
-//Start Authentication and Authorization:
-
-//Route with files:
-app.post(
-    //1. route (url)
-    "/auth/register",
-    //2. middleware to /public/assets/ directory
-    //this is why, it is called middleware because it happens in between, in this case 1: Route and 3: Logic
-    upload.single("picture"),
-    //3. logic (it is in controller in the term of MVC model)
-    register);
