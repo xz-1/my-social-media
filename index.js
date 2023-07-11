@@ -12,6 +12,8 @@ import path from "path";
 import { fileURLToPath } from "url";
 
 
+import { register } from "./controllers/auth.js"
+
 //Configuration: (Middleware): function that run in between different things
 const __filename = fileURLToPath(import.meta.url); //to grasp the file url
 const __dirname = path.dirname(__filename);
@@ -68,3 +70,16 @@ mongoose.connect(process.env.MONGO_URL, {
 }).catch((error) => {
     console.log(`${error} did not connect`)
 });
+
+
+//Start Authentication and Authorization:
+
+//Route with files:
+app.post(
+    //1. route (url)
+    "/auth/register",
+    //2. middleware to /public/assets/ directory
+    //this is why, it is called middleware because it happens in between, in this case 1: Route and 3: Logic
+    upload.single("picture"),
+    //3. logic (it is in controller in the term of MVC model)
+    register);
