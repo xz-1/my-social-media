@@ -114,8 +114,8 @@ mongoose.connect(process.env.MONGO_URL, {
         //manually inject the dummy info from ./data/index.js
         //Note: this is for testing purpose and data only needed to be added one time
         //after that I need to comment these line out
-        User.insertMany(users);
-        Post.insertMany(posts);
+        //User.insertMany(users);
+        //Post.insertMany(posts);
     })
 }).catch((error) => {
     console.log(`${error} did not connect`)

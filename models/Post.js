@@ -25,7 +25,10 @@ const postSchema = mongoose.Schema(
             of: Boolean,
         },
         comments: {
-            types: Array,
+            //this is bug: it is not suppose to be plural
+            //types: Array,
+            //https://youtu.be/K8YELRmUb5o?t=5976
+            type: Array,
             //mean: set defualt as empty array
             default: []
         }
