@@ -15,8 +15,12 @@ import { fileURLToPath } from "url";
 //Routes floder that I contain every paths and routes
 import authRoutes from "./routes/auth.js";
 import userRoutes from "./routes/users.js"
+import postRoutes from "./routes/posts.js"
+
 
 import { register } from "./controllers/auth.js";
+import { createPost } from "./controllers/posts.js";
+import { verifyToken } from "./middleware/auth.js";
 
 //Configuration: (Middleware): function that run in between different things
 const __filename = fileURLToPath(import.meta.url); //to grasp the file url
@@ -79,12 +83,15 @@ app.post(
     upload.single("picture"),
     //3. logic (it is in controller in the term of MVC model)
     register);
+//https://youtu.be/K8YELRmUb5o?t=4407
+app.post("/posts", verifyToken, upload.single("picture"), createPost);
 
 //this goes together---------------------------------------------------close
 
 //Routes
 app.use("/auth", authRoutes);
 app.use("/users", userRoutes);
+app.use("/posts", postRoutes);
 
 //Mongoose Setup:
 //the line process.env.PORT use the details in .env, which is PORT 3001

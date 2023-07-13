@@ -6,6 +6,8 @@ import {
 } from "../controllers/users.js";
 import { verifyToken } from "../middleware/auth.js";
 
+
+const router = express.Router();
 //READ router (Read as in R in the CRUD)
 //this the full router(url) is: /users/:id
 //?: Question is: how does NodeJS knows to user the which routers to use
