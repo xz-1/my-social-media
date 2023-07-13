@@ -22,6 +22,13 @@ import { register } from "./controllers/auth.js";
 import { createPost } from "./controllers/posts.js";
 import { verifyToken } from "./middleware/auth.js";
 
+import User from "./models/User.js";
+import Post from "./models/Post.js";
+//import dummy data from: /data/index.js
+import { users, posts } from "./data/index.js";
+
+
+
 //Configuration: (Middleware): function that run in between different things
 const __filename = fileURLToPath(import.meta.url); //to grasp the file url
 const __dirname = path.dirname(__filename);
@@ -103,9 +110,18 @@ mongoose.connect(process.env.MONGO_URL, {
 }).then(() => {
     app.listen(PORT, () => {
         console.log(`Server Port: ${PORT}`)
+
+        //manually inject the dummy info from ./data/index.js
+        //Note: this is for testing purpose and data only needed to be added one time
+        //after that I need to comment these line out
+        User.insertMany(users);
+        Post.insertMany(posts);
     })
 }).catch((error) => {
     console.log(`${error} did not connect`)
 });
+
+
+
 
 
